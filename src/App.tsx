@@ -1,17 +1,34 @@
 import { useState } from 'react'
-import MovieList from '@/components/MovieList'
+import { useFetchTodos, useCreateTodo } from '@/hooks/todo'
 
 export default function App() {
-  const [isShow, setIsShow] = useState(true)
+  const { data: todos } = useFetchTodos() // useQuery
+  const { mutate, mutateAsync } = useCreateTodo() // useMutation
+  const [title, setTitle] = useState('')
+
+  async function createTodo(title: string) {
+    // const none = await mutate(title)
+    const todo = await mutateAsync(title)
+    console.log('변이 함수 호출이 끝났어!', todo)
+  }
+
   return (
     <>
-      <button
-        onClick={() => {
-          setIsShow(!isShow)
-        }}>
-        토글
-      </button>
-      {isShow && <MovieList id={1} />}
+      <div>
+        <input
+          value={title}
+          onChange={e => setTitle(e.target.value)}
+          onKeyDown={e => e.key === 'Enter' && createTodo(title)}
+        />
+        <button onClick={() => createTodo(title)}>추가</button>
+      </div>
+      {todos?.map(todo => {
+        return (
+          <div key={todo.id}>
+            <div>{todo.title}</div>
+          </div>
+        )
+      })}
     </>
   )
 }
