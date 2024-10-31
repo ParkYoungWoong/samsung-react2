@@ -1,11 +1,16 @@
-import TodoCreator from '@/components/todos/TodoCreator'
-import TodoList from '@/components/todos/TodoList'
+import { useState } from 'react'
 
 export default function App() {
+  const [searchText, setSearchText] = useState('')
   return (
     <>
-      <TodoCreator />
-      <TodoList />
+      <div>
+        <input
+          value={searchText}
+          onChange={e => setSearchText(e.target.value)}
+        />
+        <button>검색</button>
+      </div>
     </>
   )
 }

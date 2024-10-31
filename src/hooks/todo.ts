@@ -148,3 +148,18 @@ export function useDeleteTodo() {
     onSettled: () => {} // finally
   })
 }
+
+// export function useCustomHook() {
+//   return useMutation({
+//     mutationFn: async (a: string) => {
+//       // throw new Error('에러 발생!')
+//       return b as number
+//     },
+//     onMutate: (a) => {
+//       return c as boolean
+//     },
+//     onSuccess: (b, a, c) => {},
+//     onError: (err, a, c) => {},
+//     onSettled: (b, err, a, c) => {} // finally
+//   })
+// }
