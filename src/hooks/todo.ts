@@ -102,8 +102,7 @@ export function useUpdateTodo() {
       )
       return res.json()
     },
-    onMutate: () => {},
-    onSuccess: (todo: Todo) => {
+    onMutate: (todo: Todo) => {
       const todos = queryClient.getQueryData<Todo[]>(['todos'])
       if (todos) {
         queryClient.setQueryData(
@@ -112,7 +111,40 @@ export function useUpdateTodo() {
         )
       }
     },
+    onSuccess: () => {},
     onError: () => {},
     onSettled: () => {}
+  })
+}
+
+export function useDeleteTodo() {
+  const queryClient = useQueryClient()
+  return useMutation({
+    mutationFn: async (todo: Todo) => {
+      const res = await fetch(
+        `https://asia-northeast3-heropy-api.cloudfunctions.net/api/todos/${todo.id}`,
+        {
+          method: 'DELETE',
+          headers: {
+            'Content-Type': 'application/json',
+            apikey: 'KDT8_bcAWVpD8',
+            username: 'KDT8_ParkYoungWoong'
+          }
+        }
+      )
+      return res.json()
+    },
+    onMutate: (todo: Todo) => {
+      const todos = queryClient.getQueryData<Todo[]>(['todos'])
+      if (todos) {
+        queryClient.setQueryData(
+          ['todos'],
+          todos.filter(t => t.id !== todo.id)
+        )
+      }
+    },
+    onSuccess: () => {},
+    onError: () => {},
+    onSettled: () => {} // finally
   })
 }
